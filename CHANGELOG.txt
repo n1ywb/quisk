@@ -1,0 +1,447 @@
+Quisk Version 3.6.4 September 2012
+==================================
+I added Hamlib control to Quisk.  Set your digital or logging program to rig2,
+device localhost:4575.  See the Help and docs.html.  This is used to control Quisk
+from other digital mode programs such as WSPR.
+
+I added the Y scale to the graph above the waterfall.
+
+Quisk can now record the speaker audio and the digital samples to a WAV file.  Set the
+file names using the config screen, and then use the "FileRec" button to start recording.
+Press the Help button for more information.
+
+Quisk Version 3.6.3 July 2012
+=============================
+Thanks to Steve Murphy, KB8RWQ for the patch adding additional color control, and for his 
+dark color design. 
+
+I am using Quisk with my AR8600 receiver 10.7 MHz IF output as a general coverage receiver.
+My config file is n2adr/quisk_conf_8600.py.  This covers the VHF and UHF bands, and so
+I needed to add some FM repeater and scanner features.  I added a Squelch button for FM.
+Right-click the button to adjust the squelch level.  The Squech and AGC buttons
+are combined to save space.  The new configuration file items freq_spacing and
+freq_base are used to round frequencies to channel spacings on VHF.  There is scanner
+logic in my config file.  You should look at this if you use Quisk with a transverter for
+the higher bands.  With my hardware it is able to scan known repeater frequencies jumping
+across bands as it scans.  The 960 ksps rate of Quisk and HiQSDR is very useful at VHF
+and higher.
+
+I added tabs to the config screen, and cleaned it up.
+
+I added a record and playback button.  Press Record to start a new recording of radio
+sound.  The maximum recording length is set in the config file, and the default is 15
+seconds.  After this limit, the most recent 15 seconds of sound is retained.  To play
+the recorded sound, press the Play button.  If you are transmitting, the recorded sound
+is transmitted provided the microphone and playback sample rate are both 48000 sps.  The
+transmitted recorded sound is not subjected to the usual audio processing.  That means
+that you can play another ham's audio back and give him/her a good idea of how it sounds.
+
+Quisk Version 3.6.2 May 2012
+============================
+I added a display of the filter bandwidth to the graph screen.  This is based on code
+provided by Terry Fox, WB4JFI.  Thanks Terry!  See the file quisk_conf_defaults.py.
+
+I added detailed information on each sound device to the config screen.  The Test
+button now generates AM and FM as well as CW and SSB.
+
+The receive filtering has been re-written to improve the shape of the filters and to
+reduce the CPU time.  Quisk now runs on my fan-less Shuttle Atom machine at speeds
+up to 480 ksps.  The CW filters are particularly nice.
+
+Quisk Version 3.6.1 April 2012
+==============================
+There is a new "DGTL" mode to send Quisk audio to an external digital mode program
+such as Fldigi.  Read the file quisk_conf_defaults.py to see the new config file
+options available.  Use the Help button for basic information, and see docs.html.
+
+I changed the 60 meter operation to agree with new FCC rules (for the USA).  See
+the configuration file for items to control 60 meters.
+
+Quisk Version 3.6.0 March 2012
+==============================
+There are no new user features in this release, and no changes to the HiQSDR code.
+This version adds a new feature for those writing C-language extension modules
+that need to access C code from the _quisk extension module.  Examples are the
+SDR-IQ and the Charleston extension modules.  This feature was requested by
+Maitland Bottoms, AA4HS, and he also provided patches.
+
+Previously, symbols from the _quisk module were linked to sub-modules with the
+C linker.  Now _quisk exports symbols using the Python CObject or Capsule
+interface.  The documentation is in import_quisk_api.c.  Only minimal changes
+to extension modules are required, as most changes are in _quisk.  The linker
+method still works on Linux, but the new interface is highly recommended.
+
+Quisk Version 3.5.12 February 2012
+==================================
+There are no changes to Quisk, but this version includes the new Quisk VNA program
+that enables you to use my original transceiver hardware and the newer HiQSDR
+hardware as a vector network analyzer.  Use "python quisk_vna.py" to run it.
+
+Quisk Version 3.5.11 December 2011
+==================================
+I fixed a bug that caused the microphone to freeze when sending the mic sound to
+the SoftRock for transmit.
+
+Quisk Version 3.5.10 December 2011
+==================================
+Lucian Langa contributed a patch to return the primary display size for dual
+displays.  If you decreased graph_width for dual displays you will need to change it
+back to 0.80 (or similar).
+
+I improved the transmit audio filters to reduce spurs and decrease processing time.
+The mic sample rate can now be either 48000 (as before) or 8000 samples per second.
+The plan is to make Quisk run effectively on small laptops or even tablet computers.
+Remember to adjust mic_clip and mic_preemphasis in your config file.
+
+Quisk Version 3.5.9 November 2011
+=================================
+I fixed a bug in Windows that occurs only when using the mic for transmit.
+
+Quisk Version 3.5.8 October 2011
+================================
+The Windows version is now equal to the Linux version, and transmits properly.
+
+I added a parameter agc_off_gain to the config file.  It controls the audio gain
+when AGC is off.  Reduce it if sound with AGC off is too loud.  Note that even with
+AGC off, the output is limited to the clip level.  I made some other improvements to AGC.
+
+I added FM transmit.  The modulation index can be set in your config file.
+
+I made some improvements to demodulation, and to the SSB transmit filter.   I fixed an
+array out of bounds bug in transmit.
+
+Quisk Version 3.5.7 September 2011
+==================================
+This is a quick release to fix two bugs in 3.5.6, the message "expected integer" and
+faint audio for FM.  I also added a new parameter agc_max_gain to the default
+configuration file to control the scale of the AGC slider.
+
+Quisk Version 3.5.6 September 2011
+==================================
+The Spot button now has a level adjustment instead of fixed values.  Right-click the
+button to adjust.  There are now three buttons with a slider adjustment, namely AGC,
+Spot and the right-most filter button.
+
+I added a feature to measure and remove any DC component in the UDP samples.  I fixed a
+problem with the waterfall display when zoomed and using band up-down.
+
+There is a new adjustable  AGC control.   Right click it to show the slider adjustment.  The
+full up position corresponds to the old AGC 1.
+
+I removed the 1650 Hertz offset when transmitting SSB.  It was not necessary and cluttered the code.
+
+Quisk Version 3.5.5 July 2011
+=============================
+These changes only affect the N2ADR 2010 transceiver and the improved version, the HiQSDR.
+
+I moved all the files into a new package directory hiqsdr.  The old n2adr directory
+has only the special files I use at my shack.  Please change your config file as follows:
+
+from hiqsdr import quisk_hardware		# Special hardware file
+use_rx_udp = 1	# Use this for the N2ADR-2010
+use_rx_udp = 2	# Use this for the HiQSDR
+
+The sample config file quisk_conf.py in hiqsdr can be used as is for the HiQSDR.
+There is a new dictionary tx_level in the config file to set the transmit level.  See
+quisk_conf_defaults.py for other features that can be set for the HiQSDR.
+
+There is a new FPGA firmare version 1.1 available to support the new HiQSDR features.
+Note that your firmware version is shown on the Config screen.  It is not necessary to
+update your firmware unless you use the HiQSDR and you want the new HiQSDR control lines
+to work.  If you do update your firmware, you must run Quisk 3.5.5 or later.
+
+Quisk Version 3.5.4 June 2011
+=============================
+I added another slider labeled "Zo" to zoom (expand) the graph screen scale
+so that narrow signals can be examined.  The center of the graph is changed
+to the tuning frequency when zoom is turned on.  To cancel zoom, move the
+slider back to the bottom position.  You can tune as usual even if zoom is on.
+
+I put the band buttons on one line so I could add more control buttons.
+
+Quisk Version 3.5.3 May 2011
+============================
+I added "Documents" as a possible config file location (for Windows 7).
+
+These changes are specific to my 2009/2010 transceiver hardware:
+I now detect and display the firmware version.  The files conf_transceiver.py
+and hardware_transceiver.py are now the basic config and hardware files for my
+transceiver.  The spot button now appears without a special widgets file, so no
+widgets file is necessary.  The file quisk_hardware.py is still the hardware file
+used in my station, but it is mostly useful as an example of what is possible,
+not as a starting point for use by others.
+
+
+Quisk Version 3.5.2 April 2011
+==============================
+I added code from Ethan Blanton, KB8OJH, to provide direct frequency control
+of the Si570 chip in many SoftRocks.  I added AM transmit and improved AM
+receive.  I added FM de-emphasis to receive.  I added a noise blanker.
+
+It is now possible to delay samples (tx_channel_delay) and correct the amplitude
+and phase for the sound card play device (SoftRock transmit).  Unfortunately
+receive sound card corrections will need to be re-entered.
+
+The filter bandwidths for each mode can now be set in the config file.  And
+you can right-click the right-most filter button to adjust its bandwidth.
+
+Quisk Version 3.5.1 February 2011
+=================================
+The phase correction control has been improved to allow multiple correction
+points per band.  Unfortunately this will require re-entering corrections.
+
+I added mic_preemphasis and mic_clip to the config file to control Tx audio processing.
+
+Quisk Version 3.5.0 January 2011
+================================
+Starting with this version, a Windows version of Quisk is available (alpha code).
+I changed the amplitude/phase correction control, and added config file
+options (rx_max_phase_correct) to control the maximum available correction.
+
+Quisk Version 3.4.14 January 2011
+=================================
+The "alsa:" names can now be used for mixer settings.  I added simplified
+config and hardware files for my 2010 transceiver hardware. I moved the one
+sample delay for some sound cards into the config file instead of using the
+#define FIX_H101 (which remains for backward compatibility).  I added more
+buttons "GraphP2" to the Graph button to activate a peak hold function.  There
+are config file options graph_peak_hold_1 and _2 to control the time constant.
+
+Quisk Version 3.4.13 December 2010
+==================================
+I decreased the microphone speech processing preemphasis and clipping.
+I added a config parameter key_poll_msec to control the SoftRock USB
+poll for key status.  I improved the config screen.  Alsa names can
+now be strings like "alsa:NVidia" that match the card/device info.
+Thanks to Joachim Schneider, DB6QS, I made some improvements to SoftRock
+USB control.
+
+Quisk Version 3.4.11 November 2010
+===============================
+Thanks to Sid Boyce, G3VBV, for sending me SoftRock hardware to work with.
+The "mic_play" logic was re-written so that transmit I/Q samples can be
+sent from a sound card to hardware that uses QSD up-conversion.  I added
+USB access through pyusb to control recent SoftRock models.  A new package
+"softrock" directly supports several SoftRock models.  
+
+Change Spot Button to transmit at carrier frequency.
+
+Add a Split button to enable split receive and transmit frequencies.
+
+Fix band change data for pan adapter users.
+
+Try to make easy_install work better.
+
+Quisk Version 3.4.8 August 2010
+===============================
+A new config file option "playback_rate" can set the radio sound play rate.
+
+I added a button to the config screen to change the decimation rate for
+hardware that supports this.  See the new "VarDecim" methods in
+quisk_hardware_model.py.  I added this feature to the SDR-IQ hardware
+file sdriqpkg/quisk_hardware.py, and to n2adr/quisk_hardware.py.
+
+Thanks to John Nogatch AC6SL for a bug fix.
+
+Quisk Version 3.4.6 July 2010
+=============================
+I improved the mouse tuning by eliminating a tendency to tune backward.
+
+I made the sdriq extension and my n2adr code into packages in the directories
+"sdriqpkg" and "n2adr".  The new package architecture will make it easier for
+authors to write Quisk extensions.  See the example config files quisk_conf_sdriq.py
+and quisk_conf_n2adr.py to see how to change your imports:
+
+  from sdriqpkg import sdriq
+  from sdriqpkg import quisk_hardware
+  from n2adr import quisk_hardware
+  from n2adr import quisk_widgets
+
+Thanks to Terry Fox, WB4JFI, for improvements to Quisk:
+    Code to support the Charleston hardware (libusb-dev required).
+    Code to add a third FFT data block.
+
+Quisk Version 3.4.3 June 2010
+=============================
+The hardware open() method now returns a string for the config screen.  If
+you have a custom hardware file, create a string or return the base class string.
+
+I made the SDR-IQ code into a separate Python extension module "sdriq".
+This module can serve as a model for other hardware extensions.  It is
+the model for the Charleston hardware extension module.  The sdriq.so
+file needs _quisk.so, so put both in the same directory.
+
+I corrected the decimation for sample rates greater than 240 ksps, and
+improved the filters for all decimations to reduce "images".
+
+The following changes are only relevant if you use the SDR-IQ for capture:
+
+  You need to add these lines to your config file (see quisk_hardware_defaults.py):
+        import quisk_hardware_sdriq as quisk_hardware
+        display_fraction = 0.85
+  There is now a special hardware file for the SDR-IQ.  If you have a
+  custom hardware file that uses the SDR-IQ you need to use
+  quisk_hardware_sdriq as its base class (instead of quisk_hardware_model).
+
+[See version 3.4.5 for further SDR-IQ changes]
+
+Quisk Version 3.4.2 May 2010
+============================
+The config file has a new option to add an external demodulation module.  I
+I added the ability to play in stereo, and corrected the sidetone logic.
+
+The config file has a new option to add a full duplex button.
+
+I added the ability to use PortAudio for sound card access.  PortAudio
+can also be used to connect Quisk to other programs.
+
+I added a key up delay to the is_key_down() serial port code and fixed a
+sound card CW bug.
+
+A new config file entry can make amplitude/phase corrections independent
+of band.  This is needed for a panadapter.
+
+I fixed the compressed graph labels at high sample rates.
+
+Quisk Version 3.3.7 April 2010
+=================================
+If you get samples from a UDP port, you can specify the decimation rate in the
+config file.
+
+If you send samples to a sound card for transmit, CW now works (as does SSB).
+
+Quisk Version 3.3.6 February 2010
+=================================
+I added BandEdge to the config file, and added code to Quisk to make the
+frequency and band changes more rational.  I changed the config file
+attribute freqTime to bandTime (see changes).
+
+You can now define a class named "Hardware" in your config file, and then
+you don't need a separate hardware file.  This is only recommended for
+simple hardware needs.  See docs.html.
+
+If you use the microphone and send samples with UDP, the audio is now
+centered at 1650 Hertz, and you must add/subtract this offset when
+setting the transmit frequency.
+
+A number of valuable patches were submitted by Andrew Nilsson, VK6JBL,
+and these were incorporated into Quisk:
+
+  The band buttons displayed can be changed in the config file (bandLabels).
+
+  The 6 meter band was added (change bandLabels to show it).
+
+  Turn on add_imd_button in the config file to generate 2-tone test signals.
+
+  The two new functions QS.capt_channels(i, q) and QS.play_channels(i, q)
+  will set the capture and playback channel numbers at any time.
+
+  If you set the key method to "", the new function QS.set_key_down(1) will
+  set the key state up or down.  This enables you change the key state using
+  either C or Python; for example, to add a "MOX" button.
+
+  The microphone samples can now be output to a sound card for transmit.  See
+  the additional items in the config file.
+
+  The new config file parameter mouse_tune_method causes mouse drag tuning
+  to change the VFO frequency, not the Quisk tuning frequency.
+
+I moved microphone_name and tx_ip (for the microphone) to the config
+file from the hardware file so that all the mic parameters are together.
+
+Quisk Version 3.3.1 December 2009
+=================================
+
+For sound card input, I added controls to correct amplitude and phase
+balance.  Press the new button on the config screen.  A different
+correction is saved for each band.  See the help file.
+
+I added the new band "Audio".  It sets the VFO frequency to
+zero and is meant to be used with a sound card.  I changed the WWV and CHU
+bands to a new Time band.  The time frequencies are named freqTime and can
+be changed in your config file.
+
+In the file quisk_conf_defaults.py I changed the default for persistent_state
+to True, and added graph_width=0.8 to specify the graph width.
+
+A period "." in the frequency entry box means megahertz.
+
+Quisk Version 3.3.0 November 2009
+=================================
+
+I fixed a bug in the SDR-IQ decimation that produced slight audio
+distortion at decimations other than 500.
+
+If the play device is the null string "", Quisk no longer tunes and
+demodulates the signal.  This saves CPU cycles when Quisk is used
+as a panadapter.
+
+I added decimation (reduction of sample rate) before the filters so that
+Quisk can handle higher sample rates or slower computers.
+
+I made the waterfall into a splitter window with a graph display at the top.
+There are new attributes in the config file to control this feature.
+
+The numeric value of Ys and Yz are now shown so that the values can be added
+to the config file more easily.
+
+There is a new config option to save the state (band, frequency, etc.) on
+exit, and restore it on startup.  Only certain bits of state are saved; the
+others are still taken from the config file.
+
+The default config file sets fft_size_multiplier to zero, and this specifies
+that Quisk should calculate it for you.
+
+Quisk Version 3.2.3 September 2009
+==================================
+
+Fixed a bug that prevented tuning the SDR-IQ when using the
+default hardware file.  Started adding code to capture sound
+from a UDP socket.
+
+Quisk Version 3.2.2 June 2009
+=============================
+
+The microphone access was re-written to make it work with more
+sound cards.  The config file has a new parameter "mic_channel_I"
+to specify which sound card channel is used for the mic.
+
+Added Documentation.html.  Fixed lack of poll to ReturnFrequency().
+
+Quisk Version 3.2 May 2009
+==========================
+
+Quisk now uses wxPython instead of Tkinter for its graphical
+user interface.  You must install the python-wxgtk2.8 package.
+Get the latest version available.  If you still want to run
+the Tkinter version, it is quisk_tk.py.  The wxPython version
+is much faster.
+
+Quisk now runs in two threads; a GUI thread and a sound thread.
+
+I moved the colors to the config file so you can change the
+colors more easily.
+
+
+Quisk Version 3.1  April 2009
+=============================
+
+New hardware file to control the AOR AD8600.
+
+I added filtering to FM audio to remove CTCSS tones and provide
+-6 dB / octave de-emphasis.
+
+I removed the tkdirect C-language module and replaced it with a
+pure Python equivalent.  This reduces compilation problems.
+
+I improved the speed of the screen updates so that Quisk will run
+without clicks on slower computers.
+
+
+Quisk Version 3.0.0  April 2009
+===============================
+
+Thanks to Leigh L. Klotz, Jr. WA5ZNU, my special hardware control was
+removed to separate files so that Quisk now has a cleaner design that
+is more useful to others.
+
