@@ -1,3 +1,7 @@
+# Artifacts
+_quisk.so
+sdriqpkg/sdriq.so
+
 *.py[co]
 
 # Packages
