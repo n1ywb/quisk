@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/env python
 
 # All QUISK software is Copyright (C) 2006-2011 by James C. Ahlstrom.
 # This free software is licensed for use under the GNU General Public
